@@ -1,5 +1,6 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
+const colors = document.getElementsByClassName("jsColor");
 
 canvas.width = 700; // 캔버스 사이즈 설정
 canvas.height = 700;
@@ -20,7 +21,6 @@ function startPainting() {
 function onMouseMove(event) {
   const x = event.offsetX;
   const y = event.offsetY;
-  console.log(painting);
   if (!painting) {
     // 같은말 if(painting === false)
     ctx.beginPath(); // 새로운 경로를 지정
@@ -31,8 +31,9 @@ function onMouseMove(event) {
   }
 }
 
-function onMousedown(event) {
-  painting = true;
+function handleColorClick(event) {
+  const color = event.target.style.backgroundColor;
+  ctx.strokeStyle = color;
 }
 
 if (canvas) {
@@ -42,3 +43,7 @@ if (canvas) {
   canvas.addEventListener("mouseup", stopPainting); // 마우스를 뗄때 이벤트 발생
   canvas.addEventListener("mouseleave", stopPainting); // 마우스가 canvas를 떠날때
 }
+
+Array.from(colors).forEach((color) =>
+  color.addEventListener("click", handleColorClick)
+); // colors를 array로 만들고 each문을 돌린다
